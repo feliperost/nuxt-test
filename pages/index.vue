@@ -1,5 +1,5 @@
 <template>
-  <Tutorial/>
+  <nuxt-link to="/users">users</nuxt-link>
 </template>
 
 <script>
