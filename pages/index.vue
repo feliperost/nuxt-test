@@ -1,9 +1,12 @@
 <template>
-  <nuxt-link to="/users">users</nuxt-link>
+  <section class="container">
+    <nuxt-link to="/users">users</nuxt-link>
+  </section>
 </template>
 
 <script>
+
 export default {
-  name: 'IndexPage'
+  name: 'IndexPage',
 }
 </script>
