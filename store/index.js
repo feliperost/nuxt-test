@@ -1,5 +1,5 @@
-import axios from 'axios'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 const createStore = () => {
     return new Vuex.Store({
@@ -9,6 +9,13 @@ const createStore = () => {
         mutations: {
             setPosts(state, posts) {
                 state.loadedPosts = posts
+            },
+            addPost(state, post) {
+                state.loadedPosts.push(post)
+            },
+            editPost(state, editedPost) {
+                const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id)
+                state.loadedPosts[postIndex] = editedPost
             }
         },
         actions: {
@@ -22,6 +29,19 @@ const createStore = () => {
                     vuexContext.commit('setPosts', postsArray)
                 })
                 .catch(e => context.error(e))
+            },
+            addPost(vuexContext, post) {
+                axios.post('https://nuxt-blog-c4b21-default-rtdb.firebaseio.com/posts.json', {
+                    ...postData, 
+                    updatedDate: new Date()
+                  })
+                  .then(result => {
+                    this.$router.push('/admin')
+                  })
+                  .catch(e => console.log(e))
+            },
+            editPost(vuexContext, editedPost) {
+
             },
             setPosts(vuexContext, posts) {
                 vuexContext.commit('setPosts', posts)
