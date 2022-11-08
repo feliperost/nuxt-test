@@ -31,17 +31,22 @@ const createStore = () => {
                 .catch(e => context.error(e))
             },
             addPost(vuexContext, post) {
-                axios.post('https://nuxt-blog-c4b21-default-rtdb.firebaseio.com/posts.json', {
-                    ...postData, 
+                const createdPost = {
+                    ...post, 
                     updatedDate: new Date()
-                  })
+                  }
+                return axios.post('https://nuxt-blog-c4b21-default-rtdb.firebaseio.com/posts.json', createdPost)
                   .then(result => {
-                    this.$router.push('/admin')
+                    vuexContext.commit('addPost', {...createdPost, id: result.data.name})
                   })
                   .catch(e => console.log(e))
             },
             editPost(vuexContext, editedPost) {
-
+                return axios.put('https://nuxt-blog-c4b21-default-rtdb.firebaseio.com/posts/' + editedPost.id + '.json', editedPost)
+                .then(res => {
+                    vuexContext.commit('editPost', editedPost)
+                })
+                .catch(e => console.log(e))
             },
             setPosts(vuexContext, posts) {
                 vuexContext.commit('setPosts', posts)

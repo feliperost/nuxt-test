@@ -19,7 +19,7 @@ export default {
         return axios.get('https://nuxt-blog-c4b21-default-rtdb.firebaseio.com/posts/' + context.params.postId + '.json')
         .then(res => {
         return {
-            loadedPost: res.data
+            loadedPost: { ...res.data, id: context.params.postId }
         }
         })
         .catch(e => context.error(e))
@@ -36,11 +36,10 @@ export default {
     },
     methods: {
         onSubmitted(editedPost) {
-            axios.put('https://nuxt-blog-c4b21-default-rtdb.firebaseio.com/posts/' + this.$route.params.postId + '.json', editedPost)
-            .then(res => {
+            this.$store.dispatch('editPost', editedPost)
+            .then(() => {
                 this.$router.push('/admin')
             })
-            .catch(e => console.log(e))
         }
     }
 }
