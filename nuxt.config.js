@@ -17,6 +17,10 @@ export default {
     ]
   },
 
+  loadingIndicator: {
+    name: 'circle',
+    color: 'fa923f'
+  },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/styles/main.css'
@@ -39,5 +43,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  env: {
+    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-c4b21-default-rtdb.firebaseio.com'
   }
 }
