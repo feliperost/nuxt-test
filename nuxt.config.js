@@ -47,5 +47,10 @@ export default {
 
   env: {
     baseUrl: process.env.BASE_URL || 'https://nuxt-blog-c4b21-default-rtdb.firebaseio.com'
-  }
+  },
+
+  transition: {
+    name: 'page',
+    mode: 'out-in'
+  },
 }
