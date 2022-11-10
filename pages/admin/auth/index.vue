@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   layout: 'admin',
   name: 'AdminAuthPage',
@@ -31,15 +29,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + process.env.fbAPIKey, {
+      this.$store.dispatch('authenticateUser', {
+        isLogin: this.isLogin,
         email: this.email,
-        password: this.password,
-        returnSecureToken: true
+        password: this.password
       })
-      .then(result => {
-        console.log(result)
-      })
-      .catch(e => console.log(e))
+      .then(() => this.$router.push('/admin'))
     }
   }
 }
