@@ -48,11 +48,16 @@ export default {
   },
 
   env: {
-    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-c4b21-default-rtdb.firebaseio.com'
+    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-c4b21-default-rtdb.firebaseio.com',
+    fbAPIKey: 'AIzaSyDj-2b9YKgjz1IyhjTqfaExSYMfD2rCrss'
   },
 
   transition: {
     name: 'page',
     mode: 'out-in'
   },
+
+  router: {
+    middleware: 'log'
+  }
 }
