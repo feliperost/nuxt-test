@@ -20,6 +20,9 @@ const createStore = () => {
             },
             setToken(state, token) {
                 state.token = token
+            },
+            clearToken(state) {
+                state.token = null
             }
         },
         actions: {
@@ -67,8 +70,30 @@ const createStore = () => {
                 })
                 .then(result => {
                     vuexContext.commit('setToken', result.idToken)
+                    localStorage.setItem('token', result.idToken)
+                    // abaixo cria um timestamp de quando o token deve expirar
+                    localStorage.setItem('tokenExpiration', new Date().getTime() + result.expiresIn * 1000)
+
+                    // abaixo por questoes de segurança, o token expira em 1h
+                    // expiresIn vem da documentaçao do firebase, o token expira em 1h entao multiplica por 1000 por ser em milissegundos
+                    vuexContext.dispatch('setLogoutTimer', result.expiresIn * 1000)
                 })
                 .catch(e => console.log(e))
+            },
+            setLogoutTimer(vuexContext, duration) {
+                setTimeout(() => {
+                    vuexContext.commit('clearToken')
+                }, duration)
+            },
+            initAuth(vuexContext) {
+                const token = localStorage.getItem('token')
+                const expirationDate = localStorage.getItem('tokenExpiration')
+
+                if (new Date().getTime() > +expirationDate || !token) {
+                    return
+                } 
+                vuexContext.dispatch('setLogoutTimer', +expirationDate - new Date().getTime())
+                vuexContext.commit('setToken', token)
             }
         },
         getters: {
