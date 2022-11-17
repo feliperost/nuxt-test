@@ -79,6 +79,8 @@ const createStore = () => {
                     // expiresIn vem da documentaçao do firebase, o token expira em 1h entao multiplica por 1000 por ser em milissegundos
                     Cookie.set('jwt', result.idToken)
                     Cookie.set('expirationDate', new Date().getTime() + Number.parseInt(result.expiresIn) * 1000)
+                    // aqui abaixo só para testar integração do nuxt com o server, exemplo- mandando uma msg qdo o user faz login
+                    return axios.post('http://localhost:3000/api/track-data', {data: 'authenticated.'})
                 })
                 .catch(e => console.log(e))
             },
